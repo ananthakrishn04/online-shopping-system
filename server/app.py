@@ -6,26 +6,21 @@ from datetime import datetime
 app = Flask(__name__)
 CORS(app)
 
-# Simulate a database of orders
 orders = {}
 
 @app.route('/api/payment', methods=['POST'])
 def process_payment():
     data = request.json
     
-    # Validate payment data
     required_fields = ['amount', 'cardNumber', 'expiryMonth', 'expiryYear', 'cvc']
     if not all(field in data for field in required_fields):
         return jsonify({'error': 'Missing required fields'}), 400
     
-    # Simple card validation (for demo purposes)
     card_number = data['cardNumber'].replace(' ', '')
     if not (card_number.isdigit() and len(card_number) == 16):
         return jsonify({'error': 'Invalid card number'}), 400
     
-    # Simulate payment processing
-    # In production, this would integrate with a real payment gateway
-    success = card_number.endswith('4242')  # Test card success condition
+    success = card_number.endswith('4242')
     
     if success:
         order_id = str(uuid.uuid4())
@@ -33,13 +28,16 @@ def process_payment():
             'id': order_id,
             'amount': data['amount'],
             'status': 'completed',
-            'created_at': datetime.utcnow().isoformat()
+            'created_at': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         }
+
         return jsonify({
             'success': True,
             'order_id': order_id,
             'message': 'Payment processed successfully'
         })
+    
+
     else:
         return jsonify({
             'success': False,

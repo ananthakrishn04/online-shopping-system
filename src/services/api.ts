@@ -17,21 +17,19 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// Products
 export const getProducts = () => 
   api.get<Product[]>('/products').then(response => response.data);
 
 export const getProduct = (id: number) => 
   api.get<Product>(`/products/${id}`).then(response => response.data);
 
-// Cart & Orders
 export const createOrder = (order: { items: Order['items'], shipping: ShippingInfo }) => 
   api.post<{ orderId: string }>('/orders', order).then(response => response.data);
 
 export const getOrder = (orderId: string) => 
   api.get<Order>(`/orders/${orderId}`).then(response => response.data);
 
-// Payment
+
 export const processPayment = async (paymentDetails: {
   amount: number;
   cardNumber: string;
@@ -50,29 +48,29 @@ export const processPayment = async (paymentDetails: {
   }
 };
 
-// Auth
-export const login = (credentials: { email: string; password: string }) => 
-  api.post<{ token: string; user: { id: string; email: string } }>('/auth/login', credentials)
-    .then(response => {
-      localStorage.setItem('token', response.data.token);
-      return response.data;
-    });
+// // Auth
+// export const login = (credentials: { email: string; password: string }) => 
+//   api.post<{ token: string; user: { id: string; email: string } }>('/auth/login', credentials)
+//     .then(response => {
+//       localStorage.setItem('token', response.data.token);
+//       return response.data;
+//     });
 
-export const register = (userData: { 
-  email: string; 
-  password: string; 
-  fullName: string;
-}) => 
-  api.post<{ token: string; user: { id: string; email: string } }>('/auth/register', userData)
-    .then(response => {
-      localStorage.setItem('token', response.data.token);
-      return response.data;
-    });
+// export const register = (userData: { 
+//   email: string; 
+//   password: string; 
+//   fullName: string;
+// }) => 
+//   api.post<{ token: string; user: { id: string; email: string } }>('/auth/register', userData)
+//     .then(response => {
+//       localStorage.setItem('token', response.data.token);
+//       return response.data;
+//     });
 
-export const logout = () => {
-  localStorage.removeItem('token');
-  return Promise.resolve();
-};
+// export const logout = () => {
+//   localStorage.removeItem('token');
+//   return Promise.resolve();
+// };
 
 // Error handling
 api.interceptors.response.use(

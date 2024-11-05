@@ -4,8 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "concurrently \"vite\" \"npm run server\"",
-    "server": "source venv/bin/activate && python server/app.py",
+    "dev": "concurrently \"vite\" \"node start-backend.js\"",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
